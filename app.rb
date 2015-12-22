@@ -91,6 +91,7 @@ Cuba.define do
                   'time' => req.POST['time'],
                   'zone' => req.POST['zone'],
                   'guests' => req.POST['guests'],
+                  'expiration' => req.POST['expiration'],
                   'visibility' => req.POST['visibility'],
                   'votes' => []}
 
@@ -128,12 +129,10 @@ Cuba.define do
         db[id]['votes'].each do |voter|
           voters['names'].push(voter['name'])
         end
-
       end
-
     end
 
-  res.write voters
+    res.write voters
   end
 
   ## Returns a event list
@@ -167,3 +166,9 @@ Cuba.define do
     render('home/index', db: db)
   end
 end
+
+
+#Falta fecha de expiracion
+#Mandar un email
+#Devolver un JSON
+#BUSQUEDA EN MAPI => mandar pais y region si o si
