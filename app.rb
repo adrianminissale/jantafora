@@ -21,15 +21,20 @@ Cuba.define do
   on post do
     on ':id' do |id|
 
-      #event = { 'title' => req.POST['title'] }
-      #db.push(event)
+      db[id] =  { 'title' => req.POST['title'],
+                  'name' => req.POST['name'],
+                  'mail' => req.POST['mail'],
+                  'date' => req.POST['date'],
+                  'time' => req.POST['time'],
+                  'zone' => req.POST['zone'],
+                  'guests' => req.POST['guests']}
 
-      #File.open("_db.yml", 'w') do |file|
-      #  file.write db.to_yaml
-      #end
+      File.open("_db.yml", 'w') do |file|
+        file.write db.to_yaml
+      end
 
-      res.write req.POST['title']
-      puts req.POST['title']
+      res.write db[id].to_json
+
       #res.redirect id
     end
   end
