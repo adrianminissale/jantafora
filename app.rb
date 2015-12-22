@@ -32,7 +32,7 @@ Cuba.define do
       votes_array = db[id]['votes'].to_a
 
       # Validar que no se siga votando
-      if is_event_finished id
+      if is_event_finished db, id
 
       else
         db[id]['votes'].to_a.push(vote)
@@ -77,22 +77,38 @@ Cuba.define do
   ## Returns the results of an event
   on 'result/:id' do |id|
 
-    if is_event_finished id
+    if is_event_finished db, id
 
     else
+      if  is_event_visible db, id
+          # Parseo y devuelvo el resultado acutal
+      else
+          # Devuelvo la cantidad de votantes o los que votaron
+      end
     end
-    
-    # Si votes.count == guets => finalizo el evento y ver la fecha
-    # Si visibility == true, parseo y devuelvo el resultado acutal
-    # Si visibility == false, devuelvo la cantidad de votantes o los que votaron
 
-    db = db[id]
     render('poll/result', db: db)
   end
 
+  ## Returns a event list
   on 'myevents/:mail' do |mail|
     #Buscar los eventos en los que figura el :mail
+    events = Hash.new
 
+
+    db.each do |key, value|
+      if value['mail'] == mail
+        events[key] = value['title']
+      else
+        value['votes'].each do |votes_value|
+          if votes_value['mail'] == mail
+            events[key] = value['title']
+          end
+        end
+      end
+    end
+
+    res.write events
   end
 
   ## Returns an event
@@ -107,8 +123,13 @@ Cuba.define do
   end
 
 
-  def is_event_finished(id)
+
+  def is_event_finished(db, id)
     return db[id]['votes'].to_a.count.to_s == db[id]['guests'].to_s
+  end
+
+  def is_event_visible(db, id)
+    return db[id]['visibility'].to_s == 'true'
   end
 
 end
