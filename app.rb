@@ -18,6 +18,28 @@ Cuba.define do
 
   db = YAML::load_file '_db.yml'
 
+  on post do
+    on ':id' do
+      # Categoria
+      db[id]['categoria'] = req.POST['categoria']
+      # Local
+      db[id]['local']['nombre'] = req.POST['local_nombre']
+      db[id]['local']['goles'] = req.POST['local_goles']
+      # Visitante
+      db[id]['visitante']['nombre'] = req.POST['visitante_nombre']
+      db[id]['visitante']['goles'] = req.POST['visitante_goles']
+      # Partido
+      db[id]['partido'] = req.POST['partido']
+      # Tiempo
+      db[id]['tiempo'] = req.POST['tiempo']
+
+      File.open("_db.yml", 'w') do |file|
+        file.write db.to_yaml
+      end
+
+      res.redirect "#{id}"
+    end
+  end
 
   on ':id/result' do |id|
     db = db[id]
@@ -30,7 +52,7 @@ Cuba.define do
   end
 
   on root do
-    render('home/index')
+    render('home/index', db: db)
   end
 
 end
