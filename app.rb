@@ -20,7 +20,7 @@ Cuba.define do
 
   on post do
 
-    # To submit a vote
+    ## To submit a vote
     on 'vote/:id' do |id|
 
       vote = { 'name' => req.POST['name'],
@@ -29,20 +29,26 @@ Cuba.define do
                'time' => req.POST['time'],
                'zone' => req.POST['zone']}
 
-      db[id]['votes'].to_a.push(vote)
+      votes_array = db[id]['votes'].to_a
 
-      # Validar que no se siga votando si votes.count == guests
+      # Validar que no se siga votando
+      if is_event_finished id
 
-      File.open("_db.yml", 'w') do |file|
-        file.write db.to_yaml
+      else
+        db[id]['votes'].to_a.push(vote)
+        File.open("_db.yml", 'w') do |file|
+          file.write db.to_yaml
+        end
       end
 
       # Chequear si votes.count == guests para disparar una notificacion
 
     end
 
-    # To submit an event
+    ## To submit an event
     on ':id' do |id|
+
+      puts req.env['HTTP_MOBILE']
 
       db[id] =  { 'title' => req.POST['title'],
                   'name' => req.POST['name'],
@@ -62,17 +68,20 @@ Cuba.define do
     end
   end
 
-  # Mobile view to create an event
+  ## Mobile view to create an event
   on 'new' do
     id = Digest::MD5.hexdigest( 'asdasdasd' )
     render('poll/new', id: id)
   end
 
-  # Returns the results of an event
+  ## Returns the results of an event
   on 'result/:id' do |id|
 
+    if is_event_finished id
+
+    else
     # Si votes.count == guets => finalizo el evento y ver la fecha
-    # Si visibility == true, parseo todo y devuelvo el resultado acutal
+    # Si visibility == true, parseo y devuelvo el resultado acutal
     # Si visibility == false, devuelvo la cantidad de votantes o los que votaron
 
     db = db[id]
@@ -84,15 +93,20 @@ Cuba.define do
 
   end
 
-  # Returns an event
+  ## Returns an event
   on ':id' do |id|
     db = db[id]
     render('poll/index', db: db)
   end
 
-  # Home
+  ## Home
   on root do
     render('home/index', db: db)
+  end
+
+
+  def is_event_finished(id)
+    return db[id]['votes'].to_a.count.to_s == db[id]['guests'].to_s
   end
 
 end
