@@ -27,6 +27,22 @@ Cuba.define do
     return db[id]['visibility'].to_s == 'true'
   end
 
+  def iterate_db(db, id, key)
+    voters = Hash.new
+    db[id][key].each do |value|
+      voters[value] = 0
+      db[id]['votes'].each do |voter|
+        voter[key].each do |voter_value|
+          if voter_value == value
+            voters[value] = voters[value] + 1
+          end
+        end
+      end
+    end
+
+    return voters
+  end
+
   on post do
 
     ## To submit a vote
@@ -89,7 +105,10 @@ Cuba.define do
 
     else
       if  is_event_visible db, id
-          # Agrupar y devuelvo el resultado acutal
+        voters['dates'] = iterate_db db, id, 'date'
+        voters['zones'] = iterate_db db, id, 'zone'
+        res.write voters
+
       else
         #Devuelvo los que votaron
         voters['voters'] = db[id]['guests']
@@ -103,7 +122,7 @@ Cuba.define do
 
     end
 
-    #render('poll/result', db: db)
+
   end
 
   ## Returns a event list
