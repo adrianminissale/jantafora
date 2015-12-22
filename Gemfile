@@ -1,6 +1,3 @@
 gem "cuba"
-gem "cuba/render"
-gem "yaml"
 gem "json"
-gem "open-uri"
 gem "haml"

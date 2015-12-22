@@ -1,0 +1,52 @@
+a5zccmzkfayg7udn:
+  name: Jorge
+  mail: jorge@gmail.com
+  date:
+    - 2015/12/23
+    - 2015/12/26
+    - 2015/12/27
+  time:
+    - Almuerzo
+    - Cena
+  zone:
+    - Belgrano
+    - Palermo
+    - Recoleta
+  guests: 5
+  votes:
+    -
+      name: Jorge
+      mail: jorge@gmail.com
+      date: 2015/12/27
+      time: Almuerzo
+      zone:
+        - Palermo
+        - Recoleta
+    -
+      name: Juan
+      mail: juan@gmail.com
+      date: 2015/12/23
+      time: Cena
+      zone: Recoleta
+    -
+      name: Julian
+      mail: julian@gmail.com
+      date: 2015/12/27
+      time: Almuerzo
+      zone: Palermo
+    -
+      name: Joaquin
+      mail: joaquin@gmail.com
+      date: 2015/12/27
+      time: Almuerzo
+      zone:
+        - Palermo
+        - Recoleta
+    -
+      name: Jaime
+      mail: jaime@gmail.com
+      date: 2015/12/27
+      time: Almuerzo
+      zone:
+        - Palermo
+        - Recoleta
