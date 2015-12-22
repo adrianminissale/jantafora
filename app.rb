@@ -80,6 +80,8 @@ Cuba.define do
     if is_event_finished id
 
     else
+    end
+    
     # Si votes.count == guets => finalizo el evento y ver la fecha
     # Si visibility == true, parseo y devuelvo el resultado acutal
     # Si visibility == false, devuelvo la cantidad de votantes o los que votaron
