@@ -18,8 +18,13 @@ Cuba.define do
 
   db = YAML::load_file '_db.yml'
 
+
+  on ':id/result' do |id|
+    db = db[id]
+    render('poll/result', db: db)
+  end
+
   on ':id' do |id|
-    #id = id.to_i
     db = db[id]
     render('poll/index', db: db)
   end

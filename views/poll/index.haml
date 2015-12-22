@@ -1,2 +1,41 @@
 JANTAFORA Poll
+
+%br
+%br
+
+Titulo:
+= db['title']
+
+%br
+%br
+
+Creador:
 = db['name']
+
+%br
+%br
+
+Fechas:
+- db['date'].each do |date|
+  = date + ' ..... '
+
+%br
+%br
+
+Horarios:
+- db['time'].each do |time|
+  = time + ' ..... '
+
+
+%br
+%br
+
+Zona:
+- db['zone'].each do |zone|
+  = zone + ' ..... '
+
+%br
+%br
+
+Invitados:
+= db['guests']
