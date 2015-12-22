@@ -16,6 +16,8 @@ Cuba.use Rack::Static,
 
 Cuba.define do
 
+  db = YAML::load_file '_db.yml'
+
   on root do
     render('home/index')
   end
