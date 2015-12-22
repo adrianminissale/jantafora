@@ -16,7 +16,16 @@ Cuba.use Rack::Static,
 
 Cuba.define do
 
+
   db = YAML::load_file '_db.yml'
+
+  def is_event_finished(db, id)
+    return db[id]['votes'].count.to_s == db[id]['guests'].to_s
+  end
+
+  def is_event_visible(db, id)
+    return db[id]['visibility'].to_s == 'true'
+  end
 
   on post do
 
@@ -26,10 +35,8 @@ Cuba.define do
       vote = { 'name' => req.POST['name'],
                'mail' => req.POST['mail'],
                'date' => req.POST['date'],
-               'time' => req.POST['time'],
+               #'time' => req.POST['time'],
                'zone' => req.POST['zone']}
-
-      votes_array = db[id]['votes'].to_a
 
       # Validar que no se siga votando
       if is_event_finished db, id
@@ -77,24 +84,32 @@ Cuba.define do
   ## Returns the results of an event
   on 'result/:id' do |id|
 
+    voters = Hash.new
     if is_event_finished db, id
 
     else
       if  is_event_visible db, id
-          # Parseo y devuelvo el resultado acutal
+          # Agrupar y devuelvo el resultado acutal
       else
-          # Devuelvo la cantidad de votantes o los que votaron
+        #Devuelvo los que votaron
+        voters['voters'] = db[id]['guests']
+        voters['names'] = Array.new
+
+        db[id]['votes'].each do |voter|
+          voters['names'].push(voter['name'])
+        end
+        res.write voters
       end
+
     end
 
-    render('poll/result', db: db)
+    #render('poll/result', db: db)
   end
 
   ## Returns a event list
   on 'myevents/:mail' do |mail|
-    #Buscar los eventos en los que figura el :mail
-    events = Hash.new
 
+    events = Hash.new
 
     db.each do |key, value|
       if value['mail'] == mail
@@ -121,15 +136,4 @@ Cuba.define do
   on root do
     render('home/index', db: db)
   end
-
-
-
-  def is_event_finished(db, id)
-    return db[id]['votes'].to_a.count.to_s == db[id]['guests'].to_s
-  end
-
-  def is_event_visible(db, id)
-    return db[id]['visibility'].to_s == 'true'
-  end
-
 end
