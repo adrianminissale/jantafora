@@ -19,6 +19,17 @@ Cuba.define do
 
   db = YAML::load_file '_db.yml'
 
+  def get_result_of_an_event(db, id)
+    voters = Hash.new
+    voters['dates'] = orderHash iterate_db db, id, 'date'
+    voters['zones'] = orderHash iterate_db db, id, 'zone'
+    return voters
+  end
+
+  def orderHash(hash)
+    hash.sort_by { |a, b| b }.reverse.to_h
+  end
+
   def is_event_finished(db, id)
     return db[id]['votes'].count.to_s == db[id]['guests'].to_s
   end
@@ -102,13 +113,13 @@ Cuba.define do
 
     voters = Hash.new
     if is_event_finished db, id
+      #Results
+      voters = get_result_of_an_event db, id
 
     else
       if  is_event_visible db, id
-        voters['dates'] = iterate_db db, id, 'date'
-        voters['zones'] = iterate_db db, id, 'zone'
-        res.write voters
-
+        #Parcial Results
+        voters = get_result_of_an_event db, id
       else
         #Devuelvo los que votaron
         voters['voters'] = db[id]['guests']
@@ -117,12 +128,12 @@ Cuba.define do
         db[id]['votes'].each do |voter|
           voters['names'].push(voter['name'])
         end
-        res.write voters
+
       end
 
     end
 
-
+  res.write voters
   end
 
   ## Returns a event list
