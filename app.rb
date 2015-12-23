@@ -4,6 +4,18 @@ require 'yaml'
 require 'json'
 require 'open-uri'
 require 'haml'
+require 'mail'
+
+
+Mail.defaults do
+  delivery_method :smtp, { :address   => "smtp.sendgrid.net",
+                           :port      => 587,
+                           :domain    => "jantafora.com",
+                           :user_name => "adrianminissale",
+                           :password  => "j4nt4f0r4.c0m",
+                           :authentication => 'plain',
+                           :enable_starttls_auto => true }
+end
 
 Cuba.plugin Cuba::Render
 Cuba.settings[:render][:template_engine] = 'haml'
@@ -16,14 +28,51 @@ Cuba.use Rack::Static,
 
 Cuba.define do
 
-
   db = YAML::load_file '_db.yml'
+
+  def check_expired_date date
+    return Date.parse date <= Date.today
+  end
 
   def get_result_of_an_event(db, id)
     voters = Hash.new
     voters['dates'] = orderHash iterate_db db, id, 'date'
     voters['zones'] = orderHash iterate_db db, id, 'zone'
     return voters
+  end
+
+  def get_recommendations(zones, dates, guests)
+    #Horario!!
+    #yyyy-MM-dd
+    basic_url = 'http://mapi.staging.restorando.com/restaurants.json?country=ar&region=buenos-aires&q='
+    basic_url << zones*","
+    basic_url << "&diners="
+    basic_url << guests.to_s
+    basic_url << "&date="
+    basic_url << dates*","
+
+    url = URI.parse(basic_url)
+    req = Net::HTTP::Get.new(url.to_s)
+    res = Net::HTTP.start(url.host, url.port) {|http|
+      http.request(req)
+    }
+    return res.body
+  end
+
+  def send_mail id listOfMails
+    mail = Mail.deliver do
+      to 'adrianminissale@gmail.com'
+      from 'JantaFora <yay@jantafora.com>'
+      subject ''
+      text_part do
+        body 'Hello world in text'
+      end
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body '<a href="http://www.jantafora.com/result/id!!">Ir a los resultos</a>'
+      end
+    end
+
   end
 
   def orderHash(hash)
@@ -75,15 +124,21 @@ Cuba.define do
         end
       end
 
+      if req.env['HTTP_MOBILE'] == "true"
+        res.write "OK".to_json
+      else
+
+      end
       # Chequear si votes.count == guests para disparar una notificacion
 
     end
 
     ## To submit an event
-    on ':id' do |id|
+    on 'newevent' do
 
       puts req.env['HTTP_MOBILE']
-
+      id = Digest::SHA1.hexdigest([Time.now, rand].join)
+      
       db[id] =  { 'title' => req.POST['title'],
                   'name' => req.POST['name'],
                   'mail' => req.POST['mail'],
@@ -99,19 +154,19 @@ Cuba.define do
         file.write db.to_yaml
       end
 
-      res.write db[id].to_json
+      if req.env['HTTP_MOBILE'] == "true"
+        res.write "OK".to_json
+      else
+
+      end
     end
   end
+
 
   ############
   # end Post #
   ############
 
-  ## Mobile view to create an event
-  on 'new' do
-    id = Digest::MD5.hexdigest( 'asdasdasd' )
-    render('poll/new', id: id)
-  end
 
   ## Returns the results of an event
   on 'result/:id' do |id|
@@ -120,7 +175,7 @@ Cuba.define do
     if is_event_finished db, id
       #Results
       voters = get_result_of_an_event db, id
-
+      voters['recommendations'] = get_recommendations voters['zones'], voters['date'], db[id]['guests']
     else
       if  is_event_visible db, id
         #Parcial Results
@@ -136,7 +191,14 @@ Cuba.define do
       end
     end
 
-    res.write voters
+    #if req.env['HTTP_MOBILE'] == "true"
+    res. voters.to_json
+
+    #voters.to_json
+    #else
+      #ADRI VISTA
+    #end
+
   end
 
   ## Returns a event list
@@ -156,7 +218,12 @@ Cuba.define do
       end
     end
 
-    res.write events
+    if req.env['HTTP_MOBILE'] == "true"
+      res.write events.to_json
+    else
+      #ADRI VISTA
+    end
+
   end
 
   ## Share an event
@@ -190,7 +257,7 @@ Cuba.define do
 end
 
 
-#Falta fecha de expiracion
 #Mandar un email
-#Devolver un JSON
-#BUSQUEDA EN MAPI => mandar pais y region si o si
+
+
+
