@@ -33,6 +33,8 @@ img {
   outline: none; }
 
 body {
+  background: url(/assets/img/back.png) center;
+  background-size: 454px auto;
   background-color: #FDC381;
   min-height: 100vh;
   display: -webkit-box;
@@ -50,7 +52,7 @@ main {
   width: 100%;
   max-width: 720px;
   background: #ffffff;
-  padding-bottom: 50px;
+  padding-bottom: 20px;
   margin: 0 auto; }
 
 main, form, .flex, .home-container {
@@ -291,9 +293,6 @@ header {
     color: #ffffff;
     float: left;
     margin: auto;
-    -webkit-transform: translateX(20px);
-        -ms-transform: translateX(20px);
-            transform: translateX(20px);
     font-weight: 800;
     font-size: 20px;
     letter-spacing: 2px;
@@ -301,6 +300,7 @@ header {
         -ms-flex-item-align: center;
             align-self: center; }
   header .menu {
+    display: none;
     position: relative;
     float: right;
     background: #666666;
@@ -337,7 +337,10 @@ footer {
   margin: 0 auto; }
 
 .home-banner {
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  background: url(/assets/img/home.svg) center no-repeat;
+  background-size: auto 100%;
+  background-color: #FDA035; }
 
 .home-container {
   -webkit-box-flex: 0;
@@ -357,6 +360,9 @@ footer {
   margin: 10px auto; }
 
 .login-banner {
+  background: url(/assets/img/login.svg) center no-repeat;
+  background-size: auto 100%;
+  background-color: #F7D41B;
   margin-bottom: 20px; }
 
 .time {
@@ -370,6 +376,11 @@ footer {
     margin-left: 5px; }
   .limit-date input[type="checkbox"] {
     float: left; }
+
+.share-event-banner {
+  background: url(/assets/img/share.svg) center no-repeat;
+  background-size: auto 100%;
+  background-color: #A7D050; }
 
 .whatsapp {
   background: #8CBC2A; }
@@ -405,6 +416,12 @@ footer {
   border: 1px solid #dddddd;
   border-radius: 4px;
   background: #f2f2f2; }
+
+.event-conclusion-banner {
+  background: url(/assets/img/event-conclusion.svg) center no-repeat;
+  background-size: auto 100%;
+  background-color: #FDA035;
+  min-height: 300px; }
 
 .show-results {
   margin: -30px -30px 30px -30px;
@@ -455,3 +472,5 @@ footer {
     margin-bottom: 5px; }
 .restaurants .restaurant:last-child {
   border: none; }
+
+/*# sourceMappingURL=style.css.map */
