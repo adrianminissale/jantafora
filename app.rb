@@ -103,6 +103,10 @@ Cuba.define do
     end
   end
 
+  ############
+  # end Post #
+  ############
+
   ## Mobile view to create an event
   on 'new' do
     id = Digest::MD5.hexdigest( 'asdasdasd' )
@@ -155,15 +159,33 @@ Cuba.define do
     res.write events
   end
 
-  ## Returns an event
-  on ':id' do |id|
-    db = db[id]
-    render('poll/index', db: db)
+  ## Share an event
+  on 'share/:id' do |id|
+    render('poll_share', id: id)
+  end
+
+  ## Returns an event to vote
+  on 'poll/:id' do |id|
+    if !true # evento vigente y aun no vote
+      render('poll_response', id: id)
+    else    # evento fonalizado o ya vote
+      render('poll_result', id: id)
+    end
+  end
+
+  ## 2nd Step
+  on 'poll' do
+    render('poll_create')
+  end
+
+  ## Login or 1st Step
+  on 'login' do
+    render('login')
   end
 
   ## Home
   on root do
-    render('home/index', db: db)
+    render('index')
   end
 end
 

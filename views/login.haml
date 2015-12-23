@@ -1,0 +1,12 @@
+.banner.login-banner
+.login-form
+  %h2
+    ¡Excelente, sos el anfitrión!
+    %br
+    ¿Cómo te llamás?
+  %form{action: 'post'}
+    %label{for: 'name'} Nombre y apellido
+    %input{name: 'name', id: 'name', placeholder: 'Ingresa tu nombre o un apodo', required: true, type: 'text'}
+    %label{for: 'email'} Correo electrónico
+    %input{name: 'email', id: 'email', placeholder: 'Ingresa una cuenta de correo valida', required: true, type: 'email'}
+    %button{type: 'submit'} Iniciar

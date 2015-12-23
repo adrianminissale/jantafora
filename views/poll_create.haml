@@ -1,0 +1,37 @@
+.banner.create-event-banner
+%h2
+  ¡Hola Jorge!
+  Completá estos datos
+  para crear el encuentro
+%form{action: 'post'}
+  %label{for: 'name'} Titulo del evento
+  %input{name: 'title', placeholder: 'Por ejemplo: Salida de amigos...', required: true, type: 'text'}
+  %section.grey-container.flex
+    %h3 Días posibles
+    .select
+      %select{name: 'date'}
+        %option{value: '22-12-15'} 22-12-15
+        %option{value: '23-12-15'} 23-12-15
+    %button.outline + Agregar otro dia
+  %section.time
+    %h3 Horarios
+    %input{checked: 'checked', name: 'time', type: 'radio'}
+    %span Almuerzo
+    %input{name: 'time', type: 'radio'}
+    %span Cena
+  %section.grey-container.flex
+    %h3 Barrios posibles
+    .select
+      %select{name: 'location'}
+        %option{value: '22-12-15'} 22-12-15
+        %option{value: '23-12-15'} 23-12-15
+    %button.outline + Agregar otro barrio
+  %section.limit-date
+    %h3 Fecha limite
+    .select
+      %select{name: 'date-limit'}
+        %option{value: '22-12-15'} 22-12-15
+        %option{value: '23-12-15'} 23-12-15
+    %input{type: 'checkbox'}
+    %span Mis invitados pueden ver los resultados a medida que se completan
+  %button ¡Finalizar!
