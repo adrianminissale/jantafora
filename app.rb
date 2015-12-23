@@ -6,17 +6,6 @@ require 'open-uri'
 require 'haml'
 require 'mail'
 
-
-Mail.defaults do
-  delivery_method :smtp, { :address   => "smtp.sendgrid.net",
-                           :port      => 587,
-                           :domain    => "jantafora.com",
-                           :user_name => "adrianminissale",
-                           :password  => "j4nt4f0r4.c0m",
-                           :authentication => 'plain',
-                           :enable_starttls_auto => true }
-end
-
 Cuba.plugin Cuba::Render
 Cuba.settings[:render][:template_engine] = 'haml'
 
@@ -25,6 +14,17 @@ Cuba.use Rack::Session::Cookie, :secret => "$3cr3t$3ss|0n"
 Cuba.use Rack::Static,
   root: "public",
   urls: ["/assets"]
+
+Mail.defaults do
+  delivery_method :smtp,
+  { :address              => "smtp.sendgrid.net",
+    :port                 => 587,
+    :domain               => "jantafora.com",
+    :user_name            => "adrianminissale",
+    :password             => "j4nt4f0r4.c0m",
+    :authentication       => 'plain',
+    :enable_starttls_auto => true }
+end
 
 Cuba.define do
 
@@ -59,7 +59,7 @@ Cuba.define do
     return res.body
   end
 
-  def send_mail id listOfMails
+  def send_mail(id, listOfMails)
     mail = Mail.deliver do
       to 'adrianminissale@gmail.com'
       from 'JantaFora <yay@jantafora.com>'
@@ -72,7 +72,6 @@ Cuba.define do
         body '<a href="http://www.jantafora.com/result/id!!">Ir a los resultos</a>'
       end
     end
-
   end
 
   def orderHash(hash)
@@ -138,7 +137,7 @@ Cuba.define do
 
       puts req.env['HTTP_MOBILE']
       id = Digest::SHA1.hexdigest([Time.now, rand].join)
-      
+
       db[id] =  { 'title' => req.POST['title'],
                   'name' => req.POST['name'],
                   'mail' => req.POST['mail'],
@@ -233,10 +232,10 @@ Cuba.define do
 
   ## Returns an event to vote
   on 'poll/:id' do |id|
-    if !true # evento vigente y aun no vote
-      render('poll_response', id: id)
+    if true # evento vigente y aun no vote
+      render('poll_response', db: db[id])
     else    # evento fonalizado o ya vote
-      render('poll_result', id: id)
+      render('poll_result', db: db[id])
     end
   end
 
@@ -256,8 +255,4 @@ Cuba.define do
   end
 end
 
-
 #Mandar un email
-
-
-

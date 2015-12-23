@@ -1,48 +1,49 @@
 .banner.event-response-banner
 %h2
-  El Tano te invito a la cena
-  “Salida con los pibes”
+  #{db['name']} te invito a la #{db['time']}
+  “#{db['title']}”
 %form{action: 'post'}
+
+  %h3 ¿Cómo te llamás?
+  %label{for: 'name'} Nombre y apellido
+  %input{name: 'name', id: 'name', placeholder: 'Ingresa tu nombre o un apodo', required: true, type: 'text'}
+  %label{for: 'email'} Correo electrónico
+  %input{name: 'email', id: 'email', placeholder: 'Ingresa una cuenta de correo valida', required: true, type: 'email'}
+
+  %hr
+
   %section.date-selection
-    %h3 ¿Qué día/s podés cenar?
+    %h3 ¿Qué día/s podés #{db['time']}?
     %ul
-      %li
-        %input{type: 'checkbox'}
-        %span Opcion 1
-      %li
-        %input{type: 'checkbox'}
-        %span Opcion 2
-      %li
-        %input{type: 'checkbox'}
-        %span Opcion 3
+      - db['date'].each do |date|
+        %li
+          %input{type: 'checkbox'}
+          %span= date
   %section.grey-container.location-selection
     %h3 ¿A dónde te gustaría ir?
     %ul
-      %li
-        %input{type: 'checkbox'}
-        %span Opcion 1
-      %li
-        %input{type: 'checkbox'}
-        %span Opcion 2
-      %li
-        %input{type: 'checkbox'}
-        %span Opcion 3
+      - db['zone'].each do |zone|
+        %li
+          %input{type: 'checkbox'}
+          %span= zone
   %button{type: 'submit'} Votar
-%a.more-info{href: '#'} Ver resultados parciales
-%section.grey-container.time-selection
-  %h3 Va ganando
-  %p Opcion 1 - 10 votos
-%h3 Los votos de tus invitados
-.results
-  %section.result
-    %h3 Juan Manuel Biduei
-    %p
-      Opcion 1,  Opcion 2, Opcion 3
-      %br
-      Almuerzo
-  %section.result
-    %h3 Juan Manuel Biduei
-    %p
-      Opcion 1,  Opcion 2, Opcion 3
-      %br
-      Almuerzo
+
+- if db['visibility']
+  %a.more-info{href: '#'} Ver resultados parciales
+  %section.grey-container.time-selection
+    %h3 Va ganando
+    %p Opcion 1 - 10 votos
+  %h3 Los votos de tus invitados
+  .results
+    %section.result
+      %h3 Juan Manuel Biduei
+      %p
+        Opcion 1,  Opcion 2, Opcion 3
+        %br
+        Almuerzo
+    %section.result
+      %h3 Juan Manuel Biduei
+      %p
+        Opcion 1,  Opcion 2, Opcion 3
+        %br
+        Almuerzo
