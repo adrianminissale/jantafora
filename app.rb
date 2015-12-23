@@ -241,6 +241,11 @@ Cuba.define do
 
   end
 
+  ## mobile
+  on 'mobile' do
+    render('installer')
+  end
+
   ## 2nd Step
   on 'poll' do
     render('poll_create')

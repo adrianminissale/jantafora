@@ -1,0 +1,13 @@
+.banner-orange.home-banner
+%h2 iOS Application
+%a{:href => "itms-services://?action=download-manifest&url=http://www.jantafora.com/mobile/jantafora.plist"}
+  %button Instalar
+%h2 Android Application
+%a{:href => "http://192.168.1.13/JantaFora.apk"}
+  %button Instalar
+:javascript
+  var myLinks = document.getElementsByClassName('row');
+  for(var i = 0; i < myLinks.length; i++){
+      myLinks[i].addEventListener('touchstart', function(){this.className = "row hover";}, false);
+      myLinks[i].addEventListener('touchend', function(){this.className = "row";}, false);
+  }
