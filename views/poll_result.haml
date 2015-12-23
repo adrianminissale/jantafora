@@ -2,36 +2,48 @@
 .grey-container
   %h2 ¡Tenemos un ganador!
   %p
-    Cena el Lunes 12 de Abril
+    %b{style: 'font-weight: bold'}= db['title']
     %br
-    en Villa urquiza
+    %q{style: 'text-transform: capitalize'}= db['time']
+    el
+    = voters['dates'].first.first
+    %br
+    en
+    = voters['zones'].first.first
+
 .show-results Ver resultados
 %h3 Resultados parciales
 .results
-  %section.result
-    %h3 Juan Manuel Biduei
-    %p
-      Opcion 1,  Opcion 2, Opcion 3
-      %br
-      Almuerzo
-  %section.result
-    %h3 Juan Manuel Biduei
-    %p
-      Opcion 1,  Opcion 2, Opcion 3
-      %br
-      Almuerzo
+  - db['votes'].each do |votes|
+    %section.result
+      %h3= votes['name']
+      %p
+        Fechas:
+        - votes['date'].each do |date|
+          = date
+        %br
+        Barrios:
+        - votes['zone'].each do |zone|
+          = zone
 %hr
 %h3
-  Para el 12 de Abril en Villa
-  urquiza te recomendamos:
+  Para el #{voters['dates'].first.first} en #{voters['zones'].first.first} te recomendamos:
 .restaurants
-  .restaurant
-    %img{src: 'http://placehold.it/55x55'}
-    %article
-      %h3 La Cabrera
-      %span Parrilla - Cabrera 5127
-  .restaurant
-    %img{src: 'http://placehold.it/55x55'}
-    %article
-      %h3 La Cabrera
-      %span Parrilla - Cabrera 5127
+  %a{href: 'https://buenos-aires.restorando.com.ar/restaurante/resto', target: '_blank'}
+    .restaurant
+      %img{src: 'https://restorando-res.cloudinary.com/image/upload/s--O7MGtE84--/c_fill,f_auto,h_150,q_85,w_150/v1/restaurant_photos/u/2100/80483/restaurante_resto_recoleta_resto_dish1_latam_2015.jpg'}
+      %article
+        %h3 Restó
+        %span De autor - Montevideo 938
+  %a{href: 'https://buenos-aires.restorando.com.ar/restaurante/la-dorita-recoleta', target: '_blank'}
+    .restaurant
+      %img{src: 'https://restorando-res.cloudinary.com/image/upload/s---hWnzaPQ--/c_fill,f_auto,h_150,q_85,w_150/v1/restaurant_photos/q/510/13138/restaurante_la-dorita-recoleta_recoleta_485216_236817516424411_2104087433_n.jpg'}
+      %article
+        %h3 La Dorita (Recoleta)
+        %span Parrilla - Avenida Del Libertador 798
+  %a{href: 'https://buenos-aires.restorando.com.ar/restaurante/martina', target: '_blank'}
+    .restaurant
+      %img{src: 'https://restorando-res.cloudinary.com/image/upload/s--PApuORh9--/c_fill,f_auto,h_150,q_85,w_150/v1/restaurant_photos/g/942/13938/restaurante_martina_barrio-norte_fondue_martina.jpg'}
+      %article
+        %h3 Martina
+        %span Pastas - Agüero 1891

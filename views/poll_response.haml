@@ -2,29 +2,20 @@
 %h2
   #{db['name']} te invito a la #{db['time']}
   “#{db['title']}”
-%form{action: 'post'}
-
-  %h3 ¿Cómo te llamás?
-  %label{for: 'name'} Nombre y apellido
-  %input{name: 'name', id: 'name', placeholder: 'Ingresa tu nombre o un apodo', required: true, type: 'text'}
-  %label{for: 'email'} Correo electrónico
-  %input{name: 'email', id: 'email', placeholder: 'Ingresa una cuenta de correo valida', required: true, type: 'email'}
-
-  %hr
-
+%form{method: 'POST'}
   %section.date-selection
     %h3 ¿Qué día/s podés #{db['time']}?
     %ul
-      - db['date'].each do |date|
+      - db['date'].each_with_index do |date, index|
         %li
-          %input{type: 'checkbox'}
+          %input{type: 'checkbox', name: "date[#{index}]", value: date}
           %span= date
   %section.grey-container.location-selection
     %h3 ¿A dónde te gustaría ir?
     %ul
-      - db['zone'].each do |zone|
+      - db['zone'].each_with_index do |zone, index|
         %li
-          %input{type: 'checkbox'}
+          %input{type: 'checkbox', name: "zone[#{index}]", value: zone}
           %span= zone
   %button{type: 'submit'} Votar
 
@@ -35,15 +26,14 @@
     %p Opcion 1 - 10 votos
   %h3 Los votos de tus invitados
   .results
-    %section.result
-      %h3 Juan Manuel Biduei
-      %p
-        Opcion 1,  Opcion 2, Opcion 3
-        %br
-        Almuerzo
-    %section.result
-      %h3 Juan Manuel Biduei
-      %p
-        Opcion 1,  Opcion 2, Opcion 3
-        %br
-        Almuerzo
+    - db['votes'].each do |votes|
+      %section.result
+        %h3= votes['name']
+        %p
+          Fechas:
+          - votes['date'].each do |date|
+            = date
+          %br
+          Barrios:
+          - votes['zone'].each do |zone|
+            = zone

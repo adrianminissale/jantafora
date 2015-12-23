@@ -3,35 +3,47 @@
   ¡Hola Jorge!
   Completá estos datos
   para crear el encuentro
-%form{action: 'post'}
+%form{method: 'POST'}
   %label{for: 'name'} Titulo del evento
-  %input{name: 'title', placeholder: 'Por ejemplo: Salida de amigos...', required: true, type: 'text'}
+  %input{id: 'name',name: 'title', placeholder: 'Por ejemplo: Salida de amigos...', required: true, type: 'text'}
   %section.grey-container.flex
     %h3 Días posibles
-    .select
-      %select{name: 'date'}
-        %option{value: '22-12-15'} 22-12-15
-        %option{value: '23-12-15'} 23-12-15
+    %ul
+      %li
+        %input{type: 'checkbox', name: "date[0]", value: '22/12'}
+        %span 22/12
+      %li
+        %input{type: 'checkbox', name: "date[1]", value: '23/12'}
+        %span 23/12
+      %li
+        %input{type: 'checkbox', name: "date[2]", value: '24/12'}
+        %span 24/12
     %button.outline + Agregar otro dia
   %section.time
     %h3 Horarios
-    %input{checked: 'checked', name: 'time', type: 'radio'}
+    %input{checked: 'checked', name: 'time', type: 'radio', value: 'Almuerzo'}
     %span Almuerzo
-    %input{name: 'time', type: 'radio'}
+    %input{name: 'time', type: 'radio', value: 'Cena'}
     %span Cena
   %section.grey-container.flex
     %h3 Barrios posibles
-    .select
-      %select{name: 'location'}
-        %option{value: '22-12-15'} 22-12-15
-        %option{value: '23-12-15'} 23-12-15
+    %ul
+      %li
+        %input{type: 'checkbox', name: "zone[0]", value: 'Palermo'}
+        %span Palermo
+      %li
+        %input{type: 'checkbox', name: "zone[0]", value: 'Belgrano'}
+        %span Belgrano
+      %li
+        %input{type: 'checkbox', name: "zone[0]", value: 'Recoleta'}
+        %span Recoleta
     %button.outline + Agregar otro barrio
   %section.limit-date
     %h3 Fecha limite
-    .select
-      %select{name: 'date-limit'}
-        %option{value: '22-12-15'} 22-12-15
-        %option{value: '23-12-15'} 23-12-15
-    %input{type: 'checkbox'}
+    %ul
+      %li
+        %input{type: 'checkbox', name: "expired", value: '22/12'}
+        %span 22/12
+    %input{type: 'checkbox', name: 'visibility'}
     %span Mis invitados pueden ver los resultados a medida que se completan
   %button ¡Finalizar!

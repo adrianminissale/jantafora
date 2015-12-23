@@ -5,9 +5,9 @@ a5zccmzkfayg7udn:
   mail: jorge@gmail.com
   visibility: true
   date:
-  - 2015/12/23
-  - 2015/12/26
-  - 2015/12/27
+  - 12/23
+  - 12/26
+  - 12/27
   time: cena
   zone:
   - Belgrano
@@ -15,50 +15,63 @@ a5zccmzkfayg7udn:
   - Recoleta
   guests: 5
   votes:
-  - name: Jorge
-    mail: jorge@gmail.com
+  - name: cca
+    mail: asds@ass.com
     date:
-    - 2015/12/27
-    - 2015/12/26
+    - 12/27
     zone:
-    - Palermo
+    - Belgrano
+  - name: cca
+    mail: asds@ass.com
+    date:
+    - 12/23
+    - 12/26
+    zone:
+    - Belgrano
+  - name: cca
+    mail: asds@ass.com
+    date:
+    - 12/27
+    zone:
     - Recoleta
-  - name: Juan
-    mail: juan@gmail.com
+  - name: jorge
+    mail: juan@fasfs.com
     date:
-    - 2015/12/23
-    - 2015/12/26
+    - 12/26
     zone:
-    - Recoleta
-  - name: Julian
-    mail: julian@gmail.com
-    date:
-    - 2015/12/27
-    zone:
-    - Palermo
-  - name: Joaquin
-    mail: joaquin@gmail.com
-    date:
-    - 2015/12/27
-    zone:
-    - Palermo
-    - Recoleta
+    - Belgrano
 asdasd12312312asd:
   title: CENA
   name: ROOOOO
   mail: rodrigo@restorando.com
-  date: 2015/08/20
+  date: 08/20
   time: almuerzo
-  zone: palermo, belgrano
+  zone:
+  - Belgrano
+  - Palermo
   guests: '5'
   votes:
   - name: Jo
     mail: jo@restorando.com
-    date: 2015/08/20
+    date: 08/20
     zone:
       '0': palermo, belgrano
   - name: KAdu
     mail: jaime@gmail.com
-    date: 2015/08/20
+    date: 08/20
     zone:
       '0': palermo, belgrano
+10ec4c625e214e5b7ee22c02c87b085d533e81ae:
+  title: zxZXZ
+  name: juan
+  mail: lasd@sad.com
+  date:
+  - 22/12
+  - 23/12
+  zone:
+  - Belgrano
+  time: Almuerzo
+  guests: 
+  expiration: 
+  visibility: 'on'
+  votes: []
