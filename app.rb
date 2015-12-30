@@ -80,6 +80,15 @@ Cuba.define do
     hash.sort_by { |a, b| b }.reverse.to_h
   end
 
+  def already_voted(db, id, mail)
+    db[id]['votes'].each do |voter|
+      if voter['mail'] == mail
+        return true
+      end
+    end
+    return false
+  end
+
   def is_event_finished(db, id)
     return db[id]['votes'].count.to_s == db[id]['guests'].to_s
   end
@@ -143,26 +152,23 @@ Cuba.define do
       puts req.env['HTTP_MOBILE']
       id = Digest::SHA1.hexdigest([Time.now, rand].join)
 
-      db[id] =  { 'title' => req.POST['title'],
-                  'name' => session['name'],
-                  'mail' => session['mail'],
-                  'date' => req.POST['date'].values,
-                  'zone' => req.POST['zone'].values,
-                  'time' => req.POST['time'],
-                  'guests' => req.POST['guests'],
+      db[id] =  { 'title'      => req.POST['title'],
+                  'name'       => session['name'],
+                  'mail'       => session['mail'],
+                  'date'       => req.POST['date'].values,
+                  'zone'       => req.POST['zone'].values,
+                  'time'       => req.POST['time'],
+                  'guests'     => req.POST['guests'].to_i,
                   'expiration' => req.POST['expiration'],
                   'visibility' => req.POST['visibility'],
-                  'votes' => []}
+                  'votes'      => []}
 
       File.open("_db.yml", 'w') do |file|
         file.write db.to_yaml
       end
 
-      if req.env['HTTP_MOBILE'] == "true"
-        res.write "OK".to_json
-      else
-        res.redirect "/poll/#{id}"
-      end
+      res.redirect "/poll/#{id}"
+
     end
 
   end
@@ -190,55 +196,58 @@ Cuba.define do
   #     end
   #   end
 
-  #   if req.env['HTTP_MOBILE'] == "true"
-  #     res.write events.to_json
-  #   else
-  #     #ADRI VISTA
-  #   end
-
   # end
-
-  ## Share an event
-  on 'share/:id' do |id|
-    render('poll_share', id: id)
-  end
 
   ## Returns an event to vote
   on 'poll/:id' do |id|
 
-    #if session['user']
-      #puts session['user']
-
+    if session['name']
       voters = Hash.new
+
       if is_event_finished db, id
         #Results
         voters = get_result_of_an_event db, id
         voters['recommendations'] = get_recommendations voters['zones'].first.first, voters['dates'].first.first, db[id]['guests']
 
-        render('poll_result', db: db[id], voters: voters)
+        render('poll_result', db: db[id], voters: voters, status: 'finished')
       else
-        if is_event_visible db, id
-          #Parcial Results
-          voters = get_result_of_an_event db, id
-        else
-          #Devuelvo los que votaron
-          voters['voters'] = db[id]['guests']
-          voters['names'] = Array.new
+        if already_voted db, id, session['mail']
+          if db[id]['mail'] == session['mail']
+            render('poll_share', id: id)
+          else
+            voters = get_result_of_an_event db, id
+            voters['recommendations'] = get_recommendations voters['zones'].first.first, voters['dates'].first.first, db[id]['guests']
 
-          db[id]['votes'].each do |voter|
-            voters['names'].push(voter['name'])
+            render('poll_result', db: db[id], voters: voters, status: 'active')
           end
+        else
+          if is_event_visible db, id
+            #Parcial Results
+            voters = get_result_of_an_event db, id
+          else
+            #Devuelvo los que votaron
+            voters['voters'] = db[id]['guests']
+            voters['names'] = Array.new
+
+            db[id]['votes'].each do |voter|
+              voters['names'].push(voter['name'])
+            end
+          end
+
+          render('poll_response', db: db[id], voters: voters)
         end
-
-        render('poll_response', db: db[id])
       end
-    #else
-      #puts session['user']
 
-      #session['poll'] = id
-      #res.redirect '/login'
-    #end
+    else
+      session['poll'] = id
+      res.redirect '/login'
+    end
 
+  end
+
+  ## Share an event
+  on 'share/:id' do |id|
+    render('poll_share', id: id)
   end
 
   ## mobile

@@ -19,11 +19,19 @@
           %span= zone
   %button{type: 'submit'} Votar
 
-- if db['visibility']
+- if db['visibility'] && db['votes'].size > 0
   %a.more-info{href: '#'} Ver resultados parciales
   %section.grey-container.time-selection
     %h3 Va ganando
-    %p Opcion 1 - 10 votos
+    %p
+      %b{style: 'font-weight: bold'}= db['title']
+      %br
+      %q{style: 'text-transform: capitalize'}= db['time']
+      el
+      = voters['dates'].first.first
+      %br
+      en
+      = voters['zones'].first.first
   %h3 Los votos de tus invitados
   .results
     - db['votes'].each do |votes|

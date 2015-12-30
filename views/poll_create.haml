@@ -1,11 +1,13 @@
 .banner.create-event-banner
 %h2
-  ¡Hola Jorge!
+  ¡Hola #{session['name']}!
   Completá estos datos
   para crear el encuentro
 %form{method: 'POST'}
-  %label{for: 'name'} Titulo del evento
-  %input{id: 'name',name: 'title', placeholder: 'Por ejemplo: Salida de amigos...', required: true, type: 'text'}
+  %label{for: 'title'} Titulo del evento
+  %input{id: 'title', name: 'title', placeholder: 'Por ejemplo: Salida de amigos...', required: true, type: 'text'}
+  %label{for: 'guests'} Invitados
+  %input{id: 'guests', name: 'guests', required: true, type: 'number'}
   %section.grey-container.flex
     %h3 Días posibles
     %ul
@@ -32,18 +34,18 @@
         %input{type: 'checkbox', name: "zone[0]", value: 'Palermo'}
         %span Palermo
       %li
-        %input{type: 'checkbox', name: "zone[0]", value: 'Belgrano'}
+        %input{type: 'checkbox', name: "zone[1]", value: 'Belgrano'}
         %span Belgrano
       %li
-        %input{type: 'checkbox', name: "zone[0]", value: 'Recoleta'}
+        %input{type: 'checkbox', name: "zone[2]", value: 'Recoleta'}
         %span Recoleta
     %button.outline + Agregar otro barrio
   %section.limit-date
     %h3 Fecha limite
     %ul
       %li
-        %input{type: 'checkbox', name: "expired", value: '22/12'}
+        %input{type: 'checkbox', name: "expiration", value: '22/12'}
         %span 22/12
-    %input{type: 'checkbox', name: 'visibility'}
+    %input{type: 'checkbox', name: 'visibility', value: 'true'}
     %span Mis invitados pueden ver los resultados a medida que se completan
   %button ¡Finalizar!
