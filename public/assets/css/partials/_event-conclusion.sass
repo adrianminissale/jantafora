@@ -1,0 +1,49 @@
+
+// EVENT CONCLUSION
+.event-conclusion-banner
+  background: url(/assets/img/event-conclusion.svg) center no-repeat
+  background-size: auto 100%
+  background-color: $orange
+  min-height: 300px
+
+
+.show-results
+  margin: -30px -30px 30px -30px
+  padding: 20px 30px
+  background: $grey1
+  cursor: pointer
+  position: relative
+  &:hover
+    background: $grey2
+  &:after
+    content: ""
+    position: absolute
+    right: 20px
+    top: 25px
+    width: 0
+    height: 0
+    border-left: 6px solid transparent
+    border-right: 6px solid transparent
+    border-top: 6px solid $grey3
+
+.restaurants
+  .restaurant
+    display: flex
+    padding-bottom: 10px
+    border-bottom: 1px solid $grey0
+    margin-bottom: 10px
+    article
+      display: flex
+      flex-direction: column
+      align-content: center
+
+    img
+      width: 55px
+      height: 55px
+      margin-right: 15px
+      border-radius: 4px
+    h3
+      margin-bottom: 5px
+  .restaurant:last-child
+    border: none
+

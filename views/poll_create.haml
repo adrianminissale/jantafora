@@ -1,4 +1,4 @@
-.banner.create-event-banner
+//.banner.create-event-banner
 %h2
   ¡Hola #{session['name']}!
   Completá estos datos
@@ -46,6 +46,7 @@
       %li
         %input{type: 'checkbox', name: "expiration", value: '22/12'}
         %span 22/12
-    %input{type: 'checkbox', name: 'visibility', value: 'true'}
-    %span Mis invitados pueden ver los resultados a medida que se completan
+      %li
+        %input{type: 'checkbox', name: 'visibility', value: 'true'}
+        %span Mis invitados pueden ver los resultados a medida que se completan
   %button ¡Finalizar!

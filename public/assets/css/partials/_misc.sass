@@ -1,0 +1,261 @@
+// MISC
+
+*,
+*:after,
+*:before
+    margin: 0
+    padding: 0
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+
+html,
+*,
+body
+    padding: 0
+    margin: 0
+    font-family: 'Lato', sans-serif
+    color: $grey3
+    font-size: 15px
+    font-weight: 400
+    text-decoration: none
+    list-style-type: none
+
+img
+    width: 100%
+    height: auto
+
+::selection
+    background-color: rgba(0,0,0,0.3)
+    color: #fff
+
+*:focus
+    outline: none
+
+
+//CONTAINERS
+
+body
+    background: url(/assets/img/back.png) center
+    background-size: 454px auto
+    background-color: #FDC381
+    min-height: 100vh
+    display: flex
+    flex-direction: column
+
+main
+    padding: 50px 30px 0 30px
+    width: 100%
+    max-width: 720px
+    background: $white
+    padding-bottom: 20px
+    margin: 0 auto
+
+main, form, .flex, .home-container
+    flex: 1
+    display: flex
+    flex-direction: column
+
+input, select, button
+    -webkit-appearance: none
+    -moz-appearance: none
+    appearance: none
+
+.grey-container
+    margin: 0 -30px 30px -30px
+    padding: 30px
+    background: $grey0
+    button
+        margin-bottom: 0
+
+.banner, .banner-green, .banner-orange
+    margin: 0 -30px
+    min-height: 200px
+    background: $yellow
+    box-shadow: inset 0px -10px 0px 0px rgba(0, 0, 0, 0.05)
+    flex: 2
+
+.banner-green
+    background: $green
+
+.banner-orange
+    background: $orange
+
+//OBJECTS
+
+button
+    width: 100%
+    padding: 12px 12px 16px 12px
+    color: $white
+    font-size: 17px
+    background: $orange
+    margin: 0 0 30px 0
+    box-shadow: inset 0px -5px 0px 0px rgba(0,0,0,0.1)
+    border: none
+    border-radius: 25px
+    cursor: pointer
+    transition: all .5s ease
+
+    &:hover
+        background: $orange
+        transition: all .5s ease
+
+    &.outline
+        color: $orange
+        border: 2px solid $orange
+        background: transparent
+        box-shadow: none
+        width: auto
+        padding: 15px 30px
+        margin: auto
+
+        &:hover
+            color: $white
+            background: $orange
+            transition: all .5s ease
+h2
+    width: 100%
+    font-size: 22px
+    color: $grey4
+    margin: 25px 0
+    font-weight: 600
+    line-height: 120%
+h3
+    width: 100%
+    font-size: 18px
+    color: $grey4
+    margin: 0 0 20px 0
+p
+    width: 100%
+    margin: 0 0 20px 0
+    line-height: 120%
+
+span
+    margin: 0 30px 0 0
+    line-height: 120%
+
+label
+    width: 100%
+    color: $grey2
+    margin: 0 0 10px 0
+
+hr
+    margin: 40px -30px 60px -30px
+    border: 0
+    border-bottom: 1px solid $grey0
+
+ul li
+    margin-bottom: 10px
+    padding-bottom: 10px
+    border-bottom: 1px solid $grey2
+    &:last-child
+        border: none
+
+input[type="text"], input[type="email"], input[type="number"]
+    width: 100%
+    border: 2px solid $grey1
+    padding: 12px 12px 16px 12px
+    color: $grey3
+    font-size: 17px
+    border-radius: 4px
+    margin-bottom: 25px
+
+    &:focus
+        border: 2px solid $grey2
+
+input[type="checkbox"], input[type="radio"]
+    width: 20px
+    height: 20px
+    margin-bottom: -5px
+    margin-right: 5px
+    border: 2px solid $grey2
+    border-radius: 4px
+    position: relative
+    background: $white
+    &:hover
+        background: $grey0
+    &:before
+        display: none
+        content: ''
+        position: absolute
+        border-bottom: 2px solid $grey4
+        border-left: 2px solid $grey4
+        width: 8px
+        height: 5px
+        transform: rotate(-45deg)
+        top: 4px
+        left: 4px
+    &:checked
+        border: 2px solid $grey4
+        background: $grey0
+        &:before
+            display: block
+
+input[type="radio"]
+    width: 20px
+    height: 20px
+    margin-bottom: -5px
+    margin-right: 5px
+    border: 2px solid $grey2
+    border-radius: 10px
+    position: relative
+    background: $white
+    &:hover
+        background: $grey0
+    &:before
+        display: none
+        content: ''
+        position: absolute
+        background: $grey4
+        width: 8px
+        height: 8px
+        top: 4px
+        left: 4px
+        border-radius: 10px
+    &:checked
+        border: 2px solid $grey4
+        background: $grey0
+        &:before
+            display: block
+
+::input-placeholder, ::-webkit-input-placeholder, :-moz-placeholder, ::-moz-placeholder, :-ms-input-placeholder
+    color: $grey0
+
+.select
+    position: relative
+    width: 100%
+    overflow: hidden
+    background: $white
+    color: $grey3
+    font-size: 17px
+    border: 2px solid $grey1
+    border-radius: 4px
+    margin-bottom: 25px
+
+    &:after
+        content: ""
+        position: absolute
+        right: 20px
+        top: 22px
+        width: 0
+        height: 0
+        border-left: 6px solid transparent
+        border-right: 6px solid transparent
+        border-top: 6px solid $grey2
+
+    select
+        background: transparent
+        width: 100%
+        padding: 12px 12px 16px 12px
+        border: 0
+        border-radius: 0
+        -webkit-appearance: none
+        font-size: 1em
+
+select
+    display: block
+    color: $grey2
+    background: $white
+    border: 2px solid $grey1
+    padding: 10px
+    width: 100%
