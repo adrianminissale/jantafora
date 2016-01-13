@@ -1,5 +1,5 @@
 ---
-sample:
+sample: 
 f91282c5ce18d39fcf2b48e1f4dc08484972e313:
   title: salida
   name: julio
@@ -47,3 +47,28 @@ f91282c5ce18d39fcf2b48e1f4dc08484972e313:
     - 22/12
     zone:
     - Recoleta
+  - name: joaquin
+    mail: joaquin.lluis@gmail.com
+    date:
+    - 22/12
+    - 23/12
+    zone:
+    - Belgrano
+    - Recoleta
+170e4ea65af9e4e3b28405b16d7b9866c0ad3e73:
+  title: Salida con amigos
+  name: Rodrigo
+  mail: rodrigo@restorando.com
+  date:
+  - 22/12
+  - 23/12
+  - 24/12
+  zone:
+  - Palermo
+  - Belgrano
+  - Recoleta
+  time: Almuerzo
+  guests: 5
+  expiration: 
+  visibility: 
+  votes: []
